@@ -1,0 +1,152 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.jm.coding.web</groupId>
+  <artifactId>angular-gulp</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>Angular Gulp</name>
+  <description>Template for AngularJS projects using Gulp, Karma, Jasmine and Browsersync as toolchain.</description>
+  <url>TODO</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <pjCommitid></pjCommitid>
+    <pjBuildtime></pjBuildtime>
+    <pjBranch></pjBranch>
+    <pjVersionName>${project.version}</pjVersionName>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>release</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <pjCommitid>${git.commit.id.abbrev}</pjCommitid>
+        <pjBuildtime>${git.build.time}</pjBuildtime>
+        <pjBranch>${git.branch}</pjBranch>
+        <pjVersionName>${project.version}</pjVersionName>
+      </properties>
+    </profile>
+  </profiles>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>app</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+      <plugins>
+        <plugin>
+          <groupId>pl.project13.maven</groupId>
+          <artifactId>git-commit-id-plugin</artifactId>
+          <version>2.2.2</version>
+          <executions>
+            <execution>
+              <id>get-the-git-infos</id>
+              <goals>
+                <goal>revision</goal>
+              </goals>
+              <phase>validate</phase>
+            </execution>
+            <execution>
+              <id>validate-the-git-infos</id>
+              <goals>
+                <goal>validateRevision</goal>
+              </goals>
+              <phase>validate</phase>
+            </execution>
+          </executions>
+          <configuration>
+            <runOnlyOnce>true</runOnlyOnce>
+            <abbrevLength>7</abbrevLength>
+            <skipPoms>false</skipPoms>
+            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+            <generateGitPropertiesFilename>git.properties</generateGitPropertiesFilename>
+            <dateFormat>yyyy-MM-dd-HH.mm</dateFormat>
+            <injectAllReactorProjects>true</injectAllReactorProjects>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>1.3</version>
+          <executions>
+            <execution>
+              <id>install node and yarn</id>
+              <goals>
+                <goal>install-node-and-yarn</goal>
+              </goals>
+              <!-- optional: default phase is "generate-resources" -->
+              <phase>generate-resources</phase>
+              <configuration>
+                <nodeVersion>v7.5.0</nodeVersion>
+                <yarnVersion>v0.20.3</yarnVersion>
+              </configuration>
+            </execution>
+            <execution>
+              <id>yarn install</id>
+              <goals>
+                <goal>yarn</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>gulp build</id>
+              <phase>generate-resources</phase>
+              <goals>
+                <goal>gulp</goal>
+              </goals>
+              <configuration>
+                <environmentVariables>
+                  <NODE_ENV>production</NODE_ENV>
+                </environmentVariables>
+                <arguments>--versionCommitId=${pjCommitid} --versionTs=${pjBuildtime} --versionBranch=${pjVersionName}
+                </arguments>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.soebes.maven.plugins</groupId>
+          <artifactId>echo-maven-plugin</artifactId>
+          <version>0.3.0</version>
+          <executions>
+            <execution>
+              <phase>initialize</phase>
+              <goals>
+                <goal>echo</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <echos>
+              <echo>project.commitid ${pjCommitid}</echo>
+              <echo>project.buildtime ${pjBuildtime}</echo>
+              <echo>project.branch ${pjBranch}</echo>
+              <echo>git.commit.id.abbrev ${git.commit.id.abbrev}</echo>
+              <echo>git.build.time ${git.build.time}</echo>
+              <echo>git.branch ${git.branch}</echo>
+              <echo>project.basedir ${project.basedir}</echo>
+              <echo>project.version ${project.version}</echo>
+            </echos>
+          </configuration>
+        </plugin>
+      </plugins>
+  </build>
+</project>

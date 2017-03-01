@@ -1,0 +1,30 @@
+# IDEs
+/.idea
+/.vscode
+/nbproject
+
+# Generated content
+/_reports
+/_coverage
+/dist
+/target
+/app/scripts/templates/templates.js
+/app/scripts/views/views.js
+git.properties
+
+# Package management
+/node_modules
+/bower_components
+/node
+
+# Temp files
+/.tmp
+/.sass-cache
+
+# dophin
+/.directory
+
+# editor
+.editorconfig
+
+
