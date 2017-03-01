@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Merukeru/angular-gulp-browserify-template.svg?branch=master)](https://travis-ci.org/Merukeru/angular-gulp-browserify-template)
+
 # AngularJS Template
 
 Template for AngularJS projects using Maven, Gulp, Karma, Jasmine, Browsersync and Browserify as toolchain.
