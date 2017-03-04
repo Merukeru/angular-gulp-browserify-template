@@ -15,10 +15,14 @@
   "keywords": [
     "angular",
     "gulp 4",
+    "quick",
+    "start",
+    "boilerplate",
+    "seed",
+    "template",
     "karma",
     "jasmine",
     "browsersync",
-    "template",
     "maven",
     "frontend-maven-plugin",
     "git-commit-id-plugin"
